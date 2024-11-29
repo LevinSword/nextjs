@@ -1,0 +1,123 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+        </marker>
+        <pattern id="miss" patternUnits="userSpaceOnUse" width="20" height="20">
+            <rect width="20" height="20" fill="#ffebee"/>
+            <path d="M0 0L20 20M-5 15L5 25M15 -5L25 5" stroke="#f44336" stroke-width="1"/>
+        </pattern>
+    </defs>
+
+    <!-- 标题和说明 -->
+    <text x="20" y="30" font-size="14" fill="#333">屏幕刷新 (16.7ms/帧)</text>
+    <text x="20" y="150" font-size="14" fill="#333">requestAnimationFrame</text>
+    <text x="20" y="270" font-size="14" fill="#333">setTimeout/setInterval</text>
+
+    <!-- 显示器垂直同步时间轴 -->
+    <g transform="translate(0, 50)">
+        <line x1="100" y1="0" x2="700" y2="0" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+        <g stroke="#333" stroke-width="2">
+            <line x1="100" y1="-5" x2="100" y2="5"/>
+            <line x1="200" y1="-5" x2="200" y2="5"/>
+            <line x1="300" y1="-5" x2="300" y2="5"/>
+            <line x1="400" y1="-5" x2="400" y2="5"/>
+            <line x1="500" y1="-5" x2="500" y2="5"/>
+            <line x1="600" y1="-5" x2="600" y2="5"/>
+        </g>
+        <g font-size="12" fill="#666">
+            <text x="95" y="25">0ms</text>
+            <text x="190" y="25">16.7ms</text>
+            <text x="290" y="25">33.4ms</text>
+            <text x="390" y="25">50.1ms</text>
+            <text x="490" y="25">66.8ms</text>
+            <text x="590" y="25">83.5ms</text>
+        </g>
+    </g>
+
+    <!-- RAF执行时机 -->
+    <g transform="translate(0, 170)">
+        <line x1="100" y1="0" x2="700" y2="0" stroke="#2196F3" stroke-width="2" marker-end="url(#arrow)"/>
+        <!-- RAF的JS执行时间 -->
+        <g fill="#2196F3" fill-opacity="0.3" stroke="#2196F3">
+            <rect x="100" y="-15" width="40" height="30"/>
+            <rect x="200" y="-15" width="40" height="30"/>
+            <rect x="300" y="-15" width="40" height="30"/>
+            <rect x="400" y="-15" width="40" height="30"/>
+            <rect x="500" y="-15" width="40" height="30"/>
+            <rect x="600" y="-15" width="40" height="30"/>
+        </g>
+        <!-- RAF执行点 -->
+        <g fill="#2196F3">
+            <circle cx="100" r="6"/>
+            <circle cx="200" r="6"/>
+            <circle cx="300" r="6"/>
+            <circle cx="400" r="6"/>
+            <circle cx="500" r="6"/>
+            <circle cx="600" r="6"/>
+        </g>
+        <!-- RAF连接线 -->
+        <g stroke="#2196F3" stroke-width="1" stroke-dasharray="4">
+            <line x1="100" y1="0" x2="100" y2="-100"/>
+            <line x1="200" y1="0" x2="200" y2="-100"/>
+            <line x1="300" y1="0" x2="300" y2="-100"/>
+            <line x1="400" y1="0" x2="400" y2="-100"/>
+            <line x1="500" y1="0" x2="500" y2="-100"/>
+            <line x1="600" y1="0" x2="600" y2="-100"/>
+        </g>
+    </g>
+
+    <!-- setTimeout执行时机 -->
+    <g transform="translate(0, 290)">
+        <line x1="100" y1="0" x2="700" y2="0" stroke="#F44336" stroke-width="2" marker-end="url(#arrow)"/>
+        <!-- setTimeout的JS执行时间（与RAF保持一致的时长） -->
+        <g fill="#F44336" fill-opacity="0.3" stroke="#F44336">
+            <rect x="105" y="-15" width="40" height="30"/>
+            <rect x="215" y="-15" width="40" height="30"/>
+            <rect x="290" y="-15" width="40" height="30"/>
+            <rect x="420" y="-15" width="40" height="30"/>
+            <rect x="510" y="-15" width="40" height="30"/>
+            <rect x="630" y="-15" width="40" height="30"/>
+        </g>
+        <!-- setTimeout执行点 -->
+        <g fill="#F44336">
+            <circle cx="105" r="6"/>
+            <circle cx="215" r="6"/>
+            <circle cx="290" r="6"/>
+            <circle cx="420" r="6"/>
+            <circle cx="510" r="6"/>
+            <circle cx="630" r="6"/>
+        </g>
+        <!-- setTimeout连接线 -->
+        <g stroke="#F44336" stroke-width="1" stroke-dasharray="4">
+            <line x1="105" y1="0" x2="105" y2="-220"/>
+            <line x1="215" y1="0" x2="215" y2="-220"/>
+            <line x1="290" y1="0" x2="290" y2="-220"/>
+            <line x1="420" y1="0" x2="420" y2="-220"/>
+            <line x1="510" y1="0" x2="510" y2="-220"/>
+            <line x1="630" y1="0" x2="630" y2="-220"/>
+        </g>
+        <!-- 掉帧区域标注（当执行延迟到帧末尾时） -->
+        <rect x="290" y="-15" width="40" height="30" fill="url(#miss)"/>
+        <rect x="510" y="-15" width="40" height="30" fill="url(#miss)"/>
+    </g>
+
+    <!-- 图例 -->
+    <g transform="translate(20, 350)">
+        <rect x="0" y="0" width="20" height="20" fill="url(#miss)"/>
+        <text x="30" y="15" font-size="12" fill="#666">掉帧区域（执行延迟到帧末尾）</text>
+        
+        <g transform="translate(250, 0)">
+            <circle cx="0" cy="10" r="6" fill="#2196F3"/>
+            <rect x="-20" y="0" width="40" height="20" fill="#2196F3" fill-opacity="0.3" stroke="#2196F3"/>
+            <text x="30" y="15" font-size="12" fill="#666">RAF执行点和执行时间</text>
+        </g>
+        
+        <g transform="translate(500, 0)">
+            <circle cx="0" cy="10" r="6" fill="#F44336"/>
+            <rect x="-20" y="0" width="40" height="20" fill="#F44336" fill-opacity="0.3" stroke="#F44336"/>
+            <text x="30" y="15" font-size="12" fill="#666">setTimeout执行点和执行时间</text>
+        </g>
+    </g>
+</svg>
