@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="200" viewBox="0 0 1100 200">
+    <!-- Background -->
+    <rect x="0" y="0" width="1100" height="200" fill="#F9F4E7"/>
+
+    <!-- Title -->
+    <text x="550" y="30" text-anchor="middle" font-size="20" fill="#8A4F7D" font-family="Arial, sans-serif">
+    Interrupt a High Priority Update
+    </text>
+
+    <!-- Timeline -->
+    <line x1="50" y1="100" x2="1050" y2="100" stroke="#888" stroke-width="2" />
+
+    <!-- Steps -->
+    <!-- FiberA (Low Priority Start) -->
+    <rect x="100" y="70" width="80" height="40" fill="#B3C2F2" rx="5"/>
+    <text x="140" y="95" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">FiberA</text>
+
+    <!-- FiberB -->
+    <rect x="200" y="70" width="80" height="40" fill="#B3C2F2" rx="5"/>
+    <text x="240" y="95" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">FiberB</text>
+
+    <!-- Interrupted -->
+    <polygon points="300,70 340,100 300,130" fill="#FFD966"/>
+    <text x="320" y="95" text-anchor="middle" font-size="14" fill="#000" font-family="Arial, sans-serif">Interrupted</text>
+
+    <!-- FiberA (High Priority) -->
+    <rect x="380" y="70" width="80" height="40" fill="#F4B3B3" rx="5"/>
+    <text x="420" y="95" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">FiberA</text>
+
+    <!-- FiberC -->
+    <rect x="480" y="70" width="80" height="40" fill="#F4B3B3" rx="5"/>
+    <text x="520" y="95" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">FiberC</text>
+
+    <!-- Commit -->
+    <rect x="580" y="70" width="80" height="40" fill="#FF8989" rx="5"/>
+    <text x="620" y="95" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">Commit</text>
+
+    <!-- Resume -->
+    <ellipse cx="720" cy="100" rx="40" ry="20" fill="#8ACB88"/>
+    <text x="720" y="105" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">Resume</text>
+
+    <!-- FiberA (Low Priority Resumed) -->
+    <rect x="780" y="70" width="80" height="40" fill="#B3C2F2" rx="5"/>
+    <text x="820" y="95" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">FiberA</text>
+
+    <!-- FiberB (Low Priority Resumed) -->
+    <rect x="880" y="70" width="80" height="40" fill="#B3C2F2" rx="5"/>
+    <text x="920" y="95" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">FiberB</text>
+
+    <!-- Reuse -->
+    <ellipse cx="920" cy="50" rx="40" ry="20" fill="#F4B3B3"/>
+    <text x="920" y="55" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">Reuse</text>
+</svg>
