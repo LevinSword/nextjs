@@ -77,7 +77,7 @@
             <rect x="215" y="-15" width="40" height="30"/>
             <rect x="290" y="-15" width="40" height="30"/>
             <rect x="420" y="-15" width="40" height="30"/>
-            <rect x="510" y="-15" width="40" height="30"/>
+            <rect x="490" y="-15" width="40" height="30"/>
             <rect x="630" y="-15" width="40" height="30"/>
         </g>
         <!-- setTimeout执行点 -->
@@ -86,7 +86,7 @@
             <circle cx="215" r="6"/>
             <circle cx="290" r="6"/>
             <circle cx="420" r="6"/>
-            <circle cx="510" r="6"/>
+            <circle cx="490" r="6"/>
             <circle cx="630" r="6"/>
         </g>
         <!-- setTimeout连接线 -->
@@ -95,12 +95,12 @@
             <line x1="215" y1="0" x2="215" y2="-220"/>
             <line x1="290" y1="0" x2="290" y2="-220"/>
             <line x1="420" y1="0" x2="420" y2="-220"/>
-            <line x1="510" y1="0" x2="510" y2="-220"/>
+            <line x1="490" y1="0" x2="490" y2="-220"/>
             <line x1="630" y1="0" x2="630" y2="-220"/>
         </g>
         <!-- 掉帧区域标注（当执行延迟到帧末尾时） -->
         <rect x="290" y="-15" width="40" height="30" fill="url(#miss)"/>
-        <rect x="510" y="-15" width="40" height="30" fill="url(#miss)"/>
+        <rect x="490" y="-15" width="40" height="30" fill="url(#miss)"/>
     </g>
 
     <!-- 图例 -->
