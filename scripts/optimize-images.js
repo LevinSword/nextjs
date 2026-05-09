@@ -19,33 +19,77 @@ if (!fs.existsSync(cacheDir)) {
   fs.mkdirSync(cacheDir, { recursive: true });
 }
 
+function getFilesRecursively(dir, relativeTo = dir) {
+  let results = [];
+  if (!fs.existsSync(dir)) return results;
+
+  const list = fs.readdirSync(dir);
+  for (const file of list) {
+    const fullPath = path.join(dir, file);
+    const stat = fs.statSync(fullPath);
+    if (stat.isDirectory()) {
+      results = results.concat(getFilesRecursively(fullPath, relativeTo));
+    } else {
+      results.push(path.relative(relativeTo, fullPath));
+    }
+  }
+  return results;
+}
+
+const SUPPORTED_IMAGE_EXTENSIONS = [
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".tiff",
+  ".heic",
+  ".avif",
+];
+
 async function optimizeImages() {
   try {
-    const files = fs.readdirSync(inputDir);
+    const relativePaths = getFilesRecursively(inputDir, inputDir);
 
-    for (const file of files) {
-      const inputPath = path.join(inputDir, file);
+    for (const relPath of relativePaths) {
+      const inputPath = path.join(inputDir, relPath);
 
-      // Skip if it's a directory
-      if (fs.statSync(inputPath).isDirectory()) {
+      // Get output path, changing extension to .webp
+      const parsedPath = path.parse(relPath);
+
+      // Skip non-image files if any
+      if (!SUPPORTED_IMAGE_EXTENSIONS.includes(parsedPath.ext.toLowerCase())) {
         continue;
       }
 
-      // Get output path, changing extension to .webp
-      const parsedPath = path.parse(file);
-      const outputFilename = `${parsedPath.name}.webp`;
+      const outputFilename = path.join(
+        parsedPath.dir,
+        `${parsedPath.name}.webp`,
+      );
       const outputPath = path.join(outputDir, outputFilename);
       const cachePath = path.join(cacheDir, outputFilename);
 
       // Skip if already in output folder
       if (fs.existsSync(outputPath)) {
-        console.log(`Skipping ${file}: already optimized.`);
+        console.log(`Skipping ${relPath}: already optimized.`);
         continue;
+      }
+
+      // Ensure cache parent directory exists
+      const fileCacheDir = path.dirname(cachePath);
+      if (!fs.existsSync(fileCacheDir)) {
+        fs.mkdirSync(fileCacheDir, { recursive: true });
+      }
+
+      // Ensure output parent directory exists
+      const fileOutputDir = path.dirname(outputPath);
+      if (!fs.existsSync(fileOutputDir)) {
+        fs.mkdirSync(fileOutputDir, { recursive: true });
       }
 
       // Check if it exists in node_modules cache
       if (fs.existsSync(cachePath)) {
-        console.log(`Restoring ${file} from cache...`);
+        console.log(`Restoring ${relPath} from cache...`);
         fs.copyFileSync(cachePath, outputPath);
         continue;
       }
@@ -55,13 +99,13 @@ async function optimizeImages() {
       const newWidth = Math.round(metadata.width * 0.5);
 
       console.log(
-        `Processing ${file}: resizing width from ${metadata.width}px to ${newWidth}px and converting to webp...`,
+        `Processing ${relPath}: resizing width from ${metadata.width}px to ${newWidth}px and converting to webp...`,
       );
 
       // Process image directly to cache first
       await sharp(inputPath)
         .resize(newWidth) // resize to 50% width (height scales automatically)
-        .avif({ quality: 50 }) // convert to webp with 80% quality
+        .avif({ quality: 50 }) // convert to webp with 80% quality (retained existing AVIF conversion setting)
         .toFile(cachePath);
 
       // Copy from cache to output folder
@@ -77,3 +121,4 @@ async function optimizeImages() {
 }
 
 optimizeImages();
+
