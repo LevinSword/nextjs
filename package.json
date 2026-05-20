@@ -18,6 +18,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "heic-convert": "^2.1.0",
     "sharp": "^0.34.5"
   }
 }

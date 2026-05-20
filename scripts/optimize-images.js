@@ -1,6 +1,8 @@
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
+const heicConvert = require("heic-convert");
+
 
 const inputDir = path.join(__dirname, "../original");
 const outputDir = path.join(__dirname, "../public/img");
@@ -94,18 +96,32 @@ async function optimizeImages() {
         continue;
       }
 
+      // Convert HEIC images first using heic-convert to bypass native HEIC decoder issues
+      let imageInput = inputPath;
+      const isHeic = parsedPath.ext.toLowerCase() === ".heic";
+
+      if (isHeic) {
+        console.log(`Converting HEIC image ${relPath} to JPEG format first...`);
+        const inputBuffer = fs.readFileSync(inputPath);
+        imageInput = await heicConvert({
+          buffer: inputBuffer,
+          format: "JPEG",
+          quality: 1,
+        });
+      }
+
       // Get metadata to calculate 50% resize
-      const metadata = await sharp(inputPath).metadata();
+      const metadata = await sharp(imageInput).metadata();
       const newWidth = Math.round(metadata.width * 0.5);
 
       console.log(
-        `Processing ${relPath}: resizing width from ${metadata.width}px to ${newWidth}px and converting to webp...`,
+        `Processing ${relPath}: converting to webp and resizing width from ${metadata.width}px to ${newWidth}px...`,
       );
 
-      // Process image directly to cache first
-      await sharp(inputPath)
+      // Process image directly to cache first: convert/encode first, then resize
+      await sharp(imageInput)
+        .webp({ quality: 80 }) // convert to webp with 80% quality
         .resize(newWidth) // resize to 50% width (height scales automatically)
-        .avif({ quality: 50 }) // convert to webp with 80% quality (retained existing AVIF conversion setting)
         .toFile(cachePath);
 
       // Copy from cache to output folder
